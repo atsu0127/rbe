@@ -12,6 +12,7 @@ use crate::hello_world::HelloWorld;
 use crate::literal_operator::LiteralOperator;
 use crate::structure::Structure;
 use crate::tuple::Tuple;
+use crate::variable_binding::VariableBinding;
 use std::any::type_name_of_val;
 
 pub mod array_slice;
@@ -24,6 +25,7 @@ pub mod hello_world;
 pub mod literal_operator;
 pub mod structure;
 pub mod tuple;
+pub mod variable_binding;
 
 trait Runner {
     fn get_name(&self) -> String {
@@ -49,6 +51,7 @@ pub fn run_all() {
         Box::new(Structure {}),
         Box::new(EnumType {}),
         Box::new(ConstantType {}),
+        Box::new(VariableBinding {}),
     ];
 
     for r in all {
