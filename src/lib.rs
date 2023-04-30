@@ -1,20 +1,28 @@
 #![feature(type_name_of_val)]
 
+extern crate core;
+
 use crate::array_slice::ArraySlice;
+use crate::constant_type::ConstantType;
 use crate::debug::Debug;
 use crate::display::Display;
+use crate::enum_type::EnumType;
 use crate::format_print::FormatPrint;
 use crate::hello_world::HelloWorld;
 use crate::literal_operator::LiteralOperator;
+use crate::structure::Structure;
 use crate::tuple::Tuple;
 use std::any::type_name_of_val;
 
 pub mod array_slice;
+pub mod constant_type;
 pub mod debug;
 pub mod display;
+pub mod enum_type;
 pub mod format_print;
 pub mod hello_world;
 pub mod literal_operator;
+pub mod structure;
 pub mod tuple;
 
 trait Runner {
@@ -38,6 +46,9 @@ pub fn run_all() {
         Box::new(LiteralOperator {}),
         Box::new(Tuple {}),
         Box::new(ArraySlice {}),
+        Box::new(Structure {}),
+        Box::new(EnumType {}),
+        Box::new(ConstantType {}),
     ];
 
     for r in all {
