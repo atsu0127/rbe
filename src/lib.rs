@@ -3,28 +3,36 @@
 extern crate core;
 
 use crate::array_slice::ArraySlice;
+use crate::condition::Condition;
 use crate::constant_type::ConstantType;
 use crate::debug::Debug;
 use crate::display::Display;
 use crate::enum_type::EnumType;
 use crate::format_print::FormatPrint;
+use crate::from_into::FromIntoStruct;
 use crate::hello_world::HelloWorld;
+use crate::literal::Literal;
 use crate::literal_operator::LiteralOperator;
 use crate::structure::Structure;
+use crate::try_from_into::TryFromIntoStruct;
 use crate::tuple::Tuple;
 use crate::type_cast::TypeCast;
 use crate::variable_binding::VariableBinding;
 use std::any::type_name_of_val;
 
 pub mod array_slice;
+pub mod condition;
 pub mod constant_type;
 pub mod debug;
 pub mod display;
 pub mod enum_type;
 pub mod format_print;
+pub mod from_into;
 pub mod hello_world;
+pub mod literal;
 pub mod literal_operator;
 pub mod structure;
+pub mod try_from_into;
 pub mod tuple;
 pub mod type_cast;
 pub mod variable_binding;
@@ -55,6 +63,10 @@ pub fn run_all() {
         Box::new(ConstantType {}),
         Box::new(VariableBinding {}),
         Box::new(TypeCast {}),
+        Box::new(Literal {}),
+        Box::new(FromIntoStruct {}),
+        Box::new(TryFromIntoStruct {}),
+        Box::new(Condition {}),
     ];
 
     for r in all {
