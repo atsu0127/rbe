@@ -3,6 +3,7 @@
 extern crate core;
 
 use crate::array_slice::ArraySlice;
+use crate::closure::Closure;
 use crate::condition::Condition;
 use crate::constant_type::ConstantType;
 use crate::debug::Debug;
@@ -13,6 +14,7 @@ use crate::from_into::FromIntoStruct;
 use crate::hello_world::HelloWorld;
 use crate::literal::Literal;
 use crate::literal_operator::LiteralOperator;
+use crate::method::Method;
 use crate::structure::Structure;
 use crate::try_from_into::TryFromIntoStruct;
 use crate::tuple::Tuple;
@@ -21,6 +23,7 @@ use crate::variable_binding::VariableBinding;
 use std::any::type_name_of_val;
 
 pub mod array_slice;
+pub mod closure;
 pub mod condition;
 pub mod constant_type;
 pub mod debug;
@@ -31,6 +34,7 @@ pub mod from_into;
 pub mod hello_world;
 pub mod literal;
 pub mod literal_operator;
+pub mod method;
 pub mod structure;
 pub mod try_from_into;
 pub mod tuple;
@@ -67,6 +71,8 @@ pub fn run_all() {
         Box::new(FromIntoStruct {}),
         Box::new(TryFromIntoStruct {}),
         Box::new(Condition {}),
+        Box::new(Method {}),
+        Box::new(Closure {}),
     ];
 
     for r in all {
