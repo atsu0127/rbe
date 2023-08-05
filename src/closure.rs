@@ -83,6 +83,79 @@ impl Runner for Closure {
         // copyableはコピーされたものがdropされるので、copyableそのものはmoveしない
         consume();
 
-        // TODO: 続きは「捕捉時の型推論」から
+        // クロージャを受け取って実行する関数
+        fn apply<F>(f: F)
+        where
+            F: FnOnce(),
+        {
+            f();
+        }
+        // クロージャを引数に取りi32を返す関数
+        fn apply_to_3<F>(f: F) -> i32
+        where
+            F: Fn(i32) -> i32,
+        {
+            f(3)
+        }
+
+        let greeting = "hello";
+        let mut farewell = "goodbye".to_owned();
+
+        // greetingは参照を補足する
+        // farewellは値を補足する
+        let diary = || {
+            // 上から順に不変参照・可変参照・値そのもの、が必要になるのでFn→FnMut→FnOnceの順で厳しくなっている
+            // 参照を補足しているので、Fn以上が必要
+            println!("I said {greeting}.");
+
+            // farewellの値を変えるので、FnMut以上で補足しないといけない
+            farewell.push_str("!!!");
+            println!("Then I screamed {farewell}.");
+            println!("Now I can sleep. zzzzz");
+
+            // farewellの値をmoveするので、FnOnceで補足しないといけない
+            mem::drop(farewell);
+        };
+
+        apply(diary);
+
+        let double = |x| 2 * x;
+        println!("3 doubled: {}", apply_to_3(double));
+
+        // 関数にクロージャを渡す場合
+        // 関数内でクロージャを使う場合はGenericでクロージャを受け取る必要がある
+        // rustのコンパイラは以下の順序で処理している
+        // 1. 無名構造体を作り、そこに外側の変数を入れる
+        // 2. Fn or FnMut or FnOnce、のどれかトレイトを介してこの構造体に関数として実装する
+        // 3. 無名構造体は型がunknownなので、関数実行時にGenericが必要だがselfの引数としての取り方がわからない(&self or &mut self or self)
+        // 4. そこでFn or FnMut or FnOnceが必要になる
+        fn apply2<F>(f: F)
+        where
+            F: FnOnce(),
+        {
+            f()
+        }
+        let x = 7;
+        let print = || println!("{x}");
+        apply2(print);
+
+        // 関数に関数を渡す場合
+        fn call_me<F: Fn()>(f: F) {
+            f();
+        }
+
+        fn function() {
+            println!("I'm a function!");
+        }
+
+        let closure = || println!("I'm a closure!");
+
+        call_me(closure);
+        call_me(function);
+
+        // TODO: 次は「クロージャを返す関数」
+        // クロージャを返すためには以下が必要
+        // 1. impl Traitを使って型を定義する
+        // 2. move
     }
 }
