@@ -153,9 +153,48 @@ impl Runner for Closure {
         call_me(closure);
         call_me(function);
 
-        // TODO: 次は「クロージャを返す関数」
+        // クロージャを返す関数
         // クロージャを返すためには以下が必要
         // 1. impl Traitを使って型を定義する
-        // 2. move
+        // 2. クロージャに参照などの所有権を移すため、moveをクロージャにつける
+        fn create_fn() -> impl Fn() {
+            let text = "Fn".to_owned();
+            move || println!("this is a: {text}")
+        }
+        fn create_fnmut() -> impl FnMut() {
+            let text = "FnMut".to_owned();
+            move || println!("This is a: {text}")
+        }
+        fn create_fnonce() -> impl FnOnce() {
+            let text = "FnOnce".to_owned();
+            move || println!("This is a: {text}")
+        }
+
+        let fn_plain = create_fn();
+        let mut fn_mut = create_fnmut();
+        let fn_once = create_fnonce();
+
+        fn_plain();
+        fn_mut();
+        fn_once();
+
+        // 実際にstdでクロージャを使っているIterator::anyを使ってみる
+        // anyでは引数にFnMutのクロージャを受けているので、anyを実行した後でも再利用は可能
+        let vec1 = vec![1, 2, 3];
+        let vec2 = vec![4, 5, 6];
+
+        println!("2 in vec1: {}", vec1.iter().any(|&x| x == 2));
+        println!("2 in vec2: {}", vec2.into_iter().any(|x| x == 2));
+
+        // vec1はiterなので所有権は失ってないので使える
+        println!("vec1 len: {}", vec1.len());
+        println!("first element of vec1: {}", vec1[0]);
+
+        // vec2はinto_iterなので所有権がmoveしているので以下は失敗する
+        // borrow of moved value: `vec2`
+        // println!("vec2 len: {}", vec2.len());
+        // println!("first element of vec2: {}", vec2[0]);
+
+        // TODO: 次はIterator::find
     }
 }
