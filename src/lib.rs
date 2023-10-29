@@ -8,10 +8,12 @@ use crate::condition::Condition;
 use crate::constant_type::ConstantType;
 use crate::debug::Debug;
 use crate::display::Display;
+use crate::diverging_function::DivergingFunction;
 use crate::enum_type::EnumType;
 use crate::format_print::FormatPrint;
 use crate::from_into::FromIntoStruct;
 use crate::hello_world::HelloWorld;
+use crate::hof::Hof;
 use crate::literal::Literal;
 use crate::literal_operator::LiteralOperator;
 use crate::method::Method;
@@ -28,10 +30,12 @@ pub mod condition;
 pub mod constant_type;
 pub mod debug;
 pub mod display;
+pub mod diverging_function;
 pub mod enum_type;
 pub mod format_print;
 pub mod from_into;
 pub mod hello_world;
+pub mod hof;
 pub mod literal;
 pub mod literal_operator;
 pub mod method;
@@ -73,6 +77,8 @@ pub fn run_all() {
         Box::new(Condition {}),
         Box::new(Method {}),
         Box::new(Closure {}),
+        Box::new(Hof {}),
+        Box::new(DivergingFunction {}),
     ];
 
     for r in all {

@@ -195,6 +195,19 @@ impl Runner for Closure {
         // println!("vec2 len: {}", vec2.len());
         // println!("first element of vec2: {}", vec2[0]);
 
-        // TODO: 次はIterator::find
+        // Iterator::findをつかってみる
+        // findも引数にFnMutを取っているので変更の可能性はあるけど消費はされない
+        let vec1 = vec![1, 2, 3];
+        let vec2 = vec![4, 5, 6];
+
+        println!("find 2 in vec1: {:?}", vec1.iter().find(|&&x| x == 2));
+        println!("find 2 in vec2: {:?}", vec2.into_iter().find(|&x| x == 2));
+
+        // findは要素への参照を返すけど、インデックスが欲しい場合はpositionを使う
+        let vec = vec![1, 9, 3, 3, 13, 2];
+        let index_of_first_even_number = vec.iter().position(|&x| x % 2 == 0);
+        assert_eq!(index_of_first_even_number, Some(5));
+        let index_of_first_even_number = vec.iter().position(|&x| x < 0);
+        assert_eq!(index_of_first_even_number, None);
     }
 }
