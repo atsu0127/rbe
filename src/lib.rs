@@ -39,6 +39,7 @@ pub mod hof;
 pub mod literal;
 pub mod literal_operator;
 pub mod method;
+pub mod modules;
 pub mod structure;
 pub mod try_from_into;
 pub mod tuple;
@@ -79,6 +80,7 @@ pub fn run_all() {
         Box::new(Closure {}),
         Box::new(Hof {}),
         Box::new(DivergingFunction {}),
+        Box::new(Modules {}),
     ];
 
     for r in all {
